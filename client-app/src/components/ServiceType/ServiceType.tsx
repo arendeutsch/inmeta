@@ -29,6 +29,7 @@ export default function SpoolType({ value, onChange }: Props) {
                     onChange={event => onChange(event.target.value)}
                     size={'small'}
                     margin={'dense'}
+                    variant={'standard'}
                 >
                     {spoolTypes.map((type, val) => (
                         <MenuItem
