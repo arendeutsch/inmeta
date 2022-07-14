@@ -24,8 +24,9 @@ export default function OrderPage({ data, onUpdate, onDelete, onValueChange }: P
     const options: MUIDataTableOptions = {
         elevation: 1,
         filter: false,
-        viewColumns: true,
+        viewColumns: false,
         download: true,
+        print: false,
         filterType: 'checkbox',
         responsive: 'standard',
         fixedHeader: true,
@@ -53,7 +54,6 @@ export default function OrderPage({ data, onUpdate, onDelete, onValueChange }: P
             const newData = [...data];
             newData[index] = updatedEntry;
 
-            // setData(newData);
             onValueChange(newData);
         }
     }
@@ -77,6 +77,7 @@ export default function OrderPage({ data, onUpdate, onDelete, onValueChange }: P
     function renderSaveButton(val: any, tableMeta: MUIDataTableMeta): React.ReactNode {
         return (
             <IconButton
+                color={'success'}
                 onClick={() => handleEdit(tableMeta.rowData)}
             >
                 <DoneAllIcon />
@@ -87,6 +88,7 @@ export default function OrderPage({ data, onUpdate, onDelete, onValueChange }: P
     function renderDeleteButton(val: any, tableMeta: MUIDataTableMeta): React.ReactNode {
         return (
             <IconButton
+                color={'error'}
                 onClick={() => onDelete(tableMeta.rowData[0])}
             >
                 <DeleteIcon />

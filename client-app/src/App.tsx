@@ -3,12 +3,13 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import IconButton from '@mui/material/IconButton';
 
 import './App.css';
-import { Order } from './models/order';
+import { NewOrder, Order } from './models/order';
 
 import agent from './api/agent';
 import OrderPage from './pages/OrderPage';
 import AlertComponent from './components/Alert/AlertContainer';
 import { Severity } from './models/severity';
+import NewOrderDialog from './components/NewOrderDialog/NewOrderDialog';
 
 function App() {
   const [data, setData] = useState<Order[]>([]);
@@ -17,6 +18,7 @@ function App() {
     text: '',
     severity: 'info' as Severity,
   });
+  const [openNewDialog, setOpenNewDialog] = useState(false);
 
   const fetchData = useCallback(async () => {
     fetch('http://localhost:5000/api/orders')
@@ -54,6 +56,25 @@ function App() {
     });
   }
 
+  function handleCreateNewOrder(newOrder: NewOrder) {
+    agent.Orders.create(newOrder)
+      .then(() => {
+        setOpenNewDialog(false);
+        fetchData();
+        setAlert({
+          show: true,
+          text: `Successfully created new order`,
+          severity: 'success'
+        });
+      }).catch(() => {
+        setAlert({
+          show: true,
+          text: `Could not register a new order`,
+          severity: 'error'
+        });
+      });
+  }
+
   function handleEdit(order: Order) {
     agent.Orders.update(order)
       .then(() => {
@@ -84,7 +105,7 @@ function App() {
             position: 'absolute',
             right: 10
           }}
-          onClick={() => console.log('add')}
+          onClick={() => setOpenNewDialog(true)}
         >
           <AddCircleOutlineIcon />
         </IconButton>
@@ -100,6 +121,11 @@ function App() {
         text={alert.text}
         severity={alert.severity}
         onClose={handleCloseAlert}
+      />
+      <NewOrderDialog
+        open={openNewDialog}
+        onClose={() => setOpenNewDialog(false)}
+        onCreate={handleCreateNewOrder}
       />
     </div>
   );

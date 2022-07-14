@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Domain;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
@@ -11,6 +12,14 @@ namespace Application.Orders
         public class Command : IRequest
         {
             public Order Order { get; set; }
+        }
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.Order).SetValidator(new OrderValidator());
+            }
         }
 
         public class Handler : IRequestHandler<Command>

@@ -16,13 +16,13 @@ namespace Application.Orders
 
         public class Handler : IRequestHandler<Query, Order>
         {
-        private readonly DataContext _context;
+            private readonly DataContext _context;
             public Handler(DataContext context)
             {
-            _context = context;
+                _context = context;
 
             }
-            
+
             public async Task<Order> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _context.Orders.FindAsync(request.Id);

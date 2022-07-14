@@ -18,7 +18,10 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Order>> GetOrder(Guid id)
         {
-            return await Mediator.Send(new Details.Query { Id = id });
+            var order = await Mediator.Send(new Details.Query { Id = id });
+            if (order == null) return NotFound();
+
+            return order;
         }
 
         [HttpPost]

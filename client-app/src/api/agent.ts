@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
-import { Order } from '../models/order';
+import { NewOrder, Order } from '../models/order';
 
-axios.defaults.baseURL = 'http://localhost:5000/api';
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
@@ -14,6 +14,7 @@ const requests = {
 
 const Orders = {
     list: () => requests.get<Order[]>('/orders'),
+    create: (order: NewOrder) => requests.post<void>(`/orders`, order),
     update: (order: Order) => requests.put<void>(`/orders/${order.id}`, order),
     delete: (id: string) => requests.del<void>(`/orders/${id}`),
 }
