@@ -14,13 +14,22 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
     ref,
 ) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    return <MuiAlert elevation={6} ref={ref} variant={'filled'} {...props} />;
 });
 
 export default function AlertComponent({ open, text, severity, onClose }: Props) {
     return (
-        <Snackbar open={open} autoHideDuration={3000} onClose={onClose}>
-            <Alert onClose={onClose} severity={severity} sx={{ width: '100%' }}>
+        <Snackbar
+            open={open}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            autoHideDuration={40000}
+            onClose={onClose}
+        >
+            <Alert
+                onClose={onClose}
+                severity={severity}
+                sx={{ width: '100%' }}
+            >
                 {text}
             </Alert>
         </Snackbar>

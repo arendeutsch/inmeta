@@ -13,6 +13,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+
 import { NewOrder } from '../../models/order';
 import { serviceType } from '../../models/service';
 
@@ -31,17 +32,19 @@ interface Props {
     onCreate: (newOrder: NewOrder) => void;
 }
 
+const initialNewOrder: NewOrder = {
+    name: '',
+    email: '',
+    phone: '',
+    source: '',
+    destination: '',
+    service: 'Moving' as serviceType,
+    deadline: new Date(),
+    note: ''
+}
+
 export default function NewOrderDialog({ open, onClose, onCreate }: Props) {
-    const [state, setState] = useState<NewOrder>({
-        name: '',
-        email: '',
-        phone: '',
-        source: '',
-        destination: '',
-        service: 'Moving' as serviceType,
-        deadline: new Date(),
-        note: '',
-    });
+    const [state, setState] = useState<NewOrder>(initialNewOrder);
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement> | SelectChangeEvent, type: string) {
         setState(prevState => ({
@@ -125,7 +128,6 @@ export default function NewOrderDialog({ open, onClose, onCreate }: Props) {
                                 display: 'flex',
                                 width: '100%',
                                 justifyContent: 'space-between',
-                                marginTop: 10,
                             }}
                         >
                             <TextField
@@ -159,6 +161,7 @@ export default function NewOrderDialog({ open, onClose, onCreate }: Props) {
                                 display: 'flex',
                                 width: '100%',
                                 justifyContent: 'space-between',
+                                marginTop: 15,
                             }}
                         >
                             <Select
@@ -166,6 +169,7 @@ export default function NewOrderDialog({ open, onClose, onCreate }: Props) {
                                 onChange={(event: SelectChangeEvent) => handleChange(event, 'service')}
                                 label={'Service'}
                                 variant={'standard'}
+                                style={{ minWidth: 195 }}
                             >
                                 <MenuItem value={'Moving'}>Moving</MenuItem>
                                 <MenuItem value={'Packing'}>Packing</MenuItem>
@@ -176,7 +180,7 @@ export default function NewOrderDialog({ open, onClose, onCreate }: Props) {
                                     inputFormat={'dd/MM/yyyy'}
                                     value={state.deadline}
                                     onChange={(newValue: any) => handleChange(newValue, 'deadline')}
-                                    renderInput={(params) => <TextField {...params} margin={'dense'} size={'small'} variant={'standard'} />}
+                                    renderInput={(params) => <TextField style={{ minWidth: 195 }} {...params} margin={'dense'} size={'small'} variant={'standard'} />}
                                 />
                             </LocalizationProvider>
                         </div>
