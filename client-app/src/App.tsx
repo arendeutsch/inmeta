@@ -19,9 +19,8 @@ function App() {
     severity: 'info' as Severity,
   });
   const [openNewDialog, setOpenNewDialog] = useState(false);
-
   const fetchData = useCallback(async () => {
-    fetch('http://localhost:5000/api/orders')
+    fetch(`${process.env.REACT_APP_API_URL}/orders`)
       .then(res => res.json())
       .then((data: Order[]) => {
         setData(data);
